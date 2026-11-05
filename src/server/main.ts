@@ -8,11 +8,11 @@ app.get("/hello", (_, res) => {
   res.send("Hello Vite + React + TypeScript!");
 });
 
-app.get("/images{/:name}", (req, res) => {
-  const { name } = req.params;
+app.get("/images{/:searchParam}", (req, res) => {
+  const { searchParam } = req.params;
   const files = fs.readdirSync("./uploads")
-  if (name) {
-    res.send(files.filter(file => file.includes(name)));
+  if (searchParam) {
+    res.send(files.filter(file => file.includes(searchParam)));
   } else {
     res.send(files);
   }
