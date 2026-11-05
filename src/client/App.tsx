@@ -1,6 +1,9 @@
 import "./App.css";
 
 import Navbar from "./components/Navbar"
+import ImageCard from "./components/ImageCard";
+import { Grid } from '@mantine/core';
+
 
 import { useState, useEffect } from "react";
 
@@ -45,11 +48,21 @@ function App() {
       <Navbar setSearchTerm={handleInputChange} searchTerm={inputValue} />
       <div>{inputValue}</div>
 
+      {`${images.length} images`}
+      <Grid>
+        {images.map(imgPath => (
+          <Grid.Col span={4}>
+            <ImageCard image={imgPath} deleteFn={deleteImage} />
+          </Grid.Col>
+        ))}
+        {/* <div>
+          <img src={`/uploads/${a}`} />
+          <button onClick={() => deleteImage(a)}>Delete</button>
+        </div> */}
+      </Grid>
 
-      {images.map(a => (<div>
-        <img src={`/uploads/${a}`} />
-        <button onClick={() => deleteImage(a)}>Delete</button>
-      </div>))}
+
+
     </div>
   );
 }
