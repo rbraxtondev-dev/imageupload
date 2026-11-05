@@ -15,7 +15,7 @@ export default function Navbar({ setSearchTerm, searchTerm, openModal }: NavbarP
                 <Group>
                     <Input
                         className={classes.search}
-                        placeholder="Search images"
+                        placeholder="Search images..."
                         onChange={(e) => setSearchTerm(e)}
                         value={searchTerm}
                     />
