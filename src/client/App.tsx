@@ -1,8 +1,8 @@
 import "./App.css";
 
-import { useState, useEffect } from "react";
+import Navbar from "./components/Navbar"
 
-import reactLogo from "./assets/react.svg";
+import { useState, useEffect } from "react";
 
 function App() {
   const [images, setImages] = useState([]);
@@ -43,6 +43,7 @@ function App() {
 
   return (
     <div className="App">
+      <Navbar />
       <input placeholder="search" onChange={handleInputChange}></input>
       <div>{inputValue}</div>
 
