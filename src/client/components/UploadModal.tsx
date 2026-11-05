@@ -1,4 +1,8 @@
 import { Modal, FileInput, Button } from '@mantine/core';
+import { Dropzone, DropzoneProps, IMAGE_MIME_TYPE } from '@mantine/dropzone';
+import { Group, Text } from '@mantine/core';
+
+
 import { useState } from 'react';
 
 
@@ -14,9 +18,35 @@ export default function UploadModal({ opened, open, close }: UploadModalProps) {
     return (
         <>
             <Modal opened={opened} onClose={close} title="Upload Image">
-                {console.log(value)}
-                {value && value.map(a => a.name)}
-                <FileInput onChange={setValue} label="Upload files" placeholder="Upload files" multiple />
+                {value.map(a => a.name)}
+                <Dropzone
+                    onDrop={(files) => setValue(files)}
+                    onReject={(files) => console.log('rejected files', files)}
+                    maxSize={5 * 1024 ** 2}
+                    accept={IMAGE_MIME_TYPE}
+                >
+                    <Group justify="center" gap="xl" mih={220} style={{ pointerEvents: 'none' }}>
+                        <Dropzone.Accept>
+                            Accept
+                        </Dropzone.Accept>
+                        <Dropzone.Reject>
+                            Reject
+                        </Dropzone.Reject>
+                        <Dropzone.Idle>
+                            Idle
+                        </Dropzone.Idle>
+
+                        <div>
+                            <Text size="xl" inline>
+                                Drag images here or click to select files
+                            </Text>
+                            <Text size="sm" c="dimmed" inline mt={7}>
+                                Attach as many files as you like, each file should not exceed 5mb
+                            </Text>
+                        </div>
+                    </Group>
+                </Dropzone>
+                <Button>Hi</Button>
             </Modal>
         </>
     );
