@@ -29,7 +29,10 @@ function App() {
       const result = await response.json();
       setImages(result);
     } catch (error) {
-      // console.error(error.message);
+      notifications.show({
+        title: 'Error fetching images',
+        message: `Error: ${error.message}`,
+      })
     }
   }
 
@@ -55,7 +58,7 @@ function App() {
 
   //useEffect hook to set a timeout for debounce. Every time value changes, previous timeout is cancelled
   useEffect(() => {
-    const timeoutId = setTimeout(() => getImages(inputValue), 150);
+    const timeoutId = setTimeout(() => refreshImages(), 150);
     return () => clearTimeout(timeoutId);
   }, [inputValue]);
 

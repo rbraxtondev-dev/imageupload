@@ -17,7 +17,7 @@ app.get("/images{/:searchParam}", (req, res) => {
   // Do not send .DS_Store files. These are metadata files automatically generated on Macs.
   const files = fs.readdirSync("./uploads").filter(file => !file.includes('.DS_Store'))
   if (searchParam) {
-    res.send(files.filter(file => file.includes(searchParam)));
+    res.send(files.filter(file => file.toLowerCase().includes(searchParam.toLowerCase())));
   } else {
     res.send(files);
   }
