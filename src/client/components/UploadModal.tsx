@@ -52,22 +52,23 @@ export default function UploadModal({ opened, open, close, getImages }: UploadMo
     return (
         <>
             <Modal opened={opened} onClose={close} title="Upload Image">
-                {value.map(a => a.name)}
                 <Dropzone
                     onDrop={(files) => setValue(files)}
+                    //TODO: Add alert
                     onReject={(files) => console.log('rejected files', files)}
-                    maxSize={5 * 1024 ** 2}
+                    maxSize={10 * 1024 ** 2}
                     accept={IMAGE_MIME_TYPE}
+                    style={{ marginBottom: 20 }}
                 >
                     <Group justify="center" gap="xl" mih={220} style={{ pointerEvents: 'none' }}>
                         <Dropzone.Accept>
                             Accept
                         </Dropzone.Accept>
                         <Dropzone.Reject>
-                            Reject
+                            File type not accepted
                         </Dropzone.Reject>
                         <Dropzone.Idle>
-                            Idle
+                            {value.length} files ready for upload
                         </Dropzone.Idle>
 
                         <div>
@@ -75,12 +76,14 @@ export default function UploadModal({ opened, open, close, getImages }: UploadMo
                                 Drag images here or click to select files
                             </Text>
                             <Text size="sm" c="dimmed" inline mt={7}>
-                                Attach as many files as you like, each file should not exceed 5mb
+                                Attach as many files as you like, each file should not exceed 10mb
                             </Text>
                         </div>
                     </Group>
                 </Dropzone>
-                <Button onClick={() => uploadFiles(value)}>Hi</Button>
+                <Group justify="flex-end">
+                    <Button onClick={() => uploadFiles(value)}>Upload</Button>
+                </Group>
             </Modal>
         </>
     );
