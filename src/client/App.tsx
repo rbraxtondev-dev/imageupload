@@ -61,7 +61,7 @@ function App() {
   return (
     <div className="App">
       <Navbar setSearchTerm={handleInputChange} searchTerm={inputValue} openModal={open} />
-      <Text size="xl" fw={500} style={{ marginBottom: "24px" }}>
+      <Text size="xl" fw={500} style={{ marginBottom: "24px", textAlign: "left" }}>
         {`${images.length} images`}
       </Text>
       <Grid>

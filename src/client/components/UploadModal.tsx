@@ -73,7 +73,6 @@ export default function UploadModal({ opened, open, close, getImages }: UploadMo
             <Modal opened={opened} onClose={close} title="Upload Image">
                 <Dropzone
                     onDrop={(files) => setValue(files)}
-                    //TODO: Add alert
                     onReject={(files) => onReject(files)}
                     maxSize={10 * 1024 ** 2}
                     accept={IMAGE_MIME_TYPE}
