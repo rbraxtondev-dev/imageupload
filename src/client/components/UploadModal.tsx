@@ -1,10 +1,21 @@
 import { Modal, FileInput, Button } from '@mantine/core';
 import { Dropzone, DropzoneProps, IMAGE_MIME_TYPE } from '@mantine/dropzone';
 import { Group, Text } from '@mantine/core';
+import { notifications } from '@mantine/notifications';
+import type { FileRejection } from '@mantine/dropzone';
+
 
 
 import { useState } from 'react';
 
+const fileToBase64 = (file: File): Promise<string> => {
+    return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = () => resolve(reader.result as string);
+        reader.onerror = (error) => reject(error);
+    });
+};
 
 type UploadModalProps = {
     opened: boolean,
@@ -15,15 +26,6 @@ type UploadModalProps = {
 
 export default function UploadModal({ opened, open, close, getImages }: UploadModalProps) {
     const [value, setValue] = useState<File[]>([]);
-
-    const fileToBase64 = (file: File): Promise<string> => {
-        return new Promise((resolve, reject) => {
-            const reader = new FileReader();
-            reader.readAsDataURL(file);
-            reader.onload = () => resolve(reader.result as string);
-            reader.onerror = (error) => reject(error);
-        });
-    };
 
     const uploadFiles = async (files: File[]) => {
         let base64Images = []
@@ -37,7 +39,6 @@ export default function UploadModal({ opened, open, close, getImages }: UploadMo
         }
 
         const url = `http://localhost:3000/upload`;
-        console.log(base64Images);
 
         await fetch(url, {
             method: "POST",
@@ -45,8 +46,26 @@ export default function UploadModal({ opened, open, close, getImages }: UploadMo
             body: JSON.stringify({ images: base64Images })
         });
 
+        notifications.show({
+            title: 'Upload successful',
+            message: `${files.length} images have been uploaded!`
+        })
+
         getImages();
+        setValue([]);
+        close();
     };
+
+    const onReject = (files: FileRejection[]) => {
+        const multiple = files.length > 1 ? true : false;
+        notifications.show({
+            title: `File${multiple ? 's' : ''} not accepted`,
+            message: multiple
+                ? "Please make sure that your files match the size and filetype requirements."
+                : "Please make sure that your file matches the size and filetype requirements.",
+            color: 'red'
+        })
+    }
 
 
     return (
@@ -55,7 +74,7 @@ export default function UploadModal({ opened, open, close, getImages }: UploadMo
                 <Dropzone
                     onDrop={(files) => setValue(files)}
                     //TODO: Add alert
-                    onReject={(files) => console.log('rejected files', files)}
+                    onReject={(files) => onReject(files)}
                     maxSize={10 * 1024 ** 2}
                     accept={IMAGE_MIME_TYPE}
                     style={{ marginBottom: 20 }}

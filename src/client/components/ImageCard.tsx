@@ -1,5 +1,6 @@
 import { Card, Image, Text, Badge, Button, Group } from '@mantine/core';
 
+
 type ImageCardProps = {
     image: string
     deleteFn: (imgPath: string) => {}
@@ -23,7 +24,7 @@ export default function ImageCard({ image, deleteFn }: ImageCardProps) {
                 <Text fw={500}>{image}</Text>
             </Group>
 
-
+//TODO: are you sure?
             <Button color="blue" fullWidth mt="md" onClick={() => { deleteFn(image) }}>
                 Delete Image
             </Button>

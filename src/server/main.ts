@@ -26,22 +26,22 @@ app.get("/images{/:searchParam}", (req, res) => {
 app.post("/upload", (req, res) => {
   const images = req.body.images;
 
+  console.log(images.length)
   for (let i = 0; i < images.length; i++) {
     const imageString = images[i].base64;
     const base64Data = imageString.replace(/^data:[^;]+;base64,/, '');
 
     try {
-      // 2. Write the file specifying the 'base64' encoding
       fs.writeFile(`./uploads/${images[i].name}`, base64Data, { encoding: "base64" }, (err) => {
         if (err) throw err;
         console.log(`${images[i].name} has been saved!`);
       });
-      res.sendStatus(200);
     } catch (error) {
       res.sendStatus(500);
       console.error('Failed to save file:', error);
     }
   }
+  res.sendStatus(200);
 
 })
 

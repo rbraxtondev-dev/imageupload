@@ -31,7 +31,7 @@ export default function Navbar({ setSearchTerm, searchTerm, openModal }: NavbarP
                     />
                     <Input
                         className={classes.search}
-                        placeholder="Search"
+                        placeholder="Search images"
                         onChange={(e) => setSearchTerm(e)}
                         value={searchTerm}
                         // leftSection={<IconSearch size={16} stroke={1.5} />}
@@ -57,7 +57,7 @@ export default function Navbar({ setSearchTerm, searchTerm, openModal }: NavbarP
                     <Divider my="sm" />
                     <Input
                         className={classes.search}
-                        placeholder="Search"
+                        placeholder="Search images"
                         onChange={(e) => setSearchTerm(e)}
                         value={searchTerm}
                         visibleFrom="xs"

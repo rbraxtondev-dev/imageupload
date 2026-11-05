@@ -4,6 +4,8 @@ import Navbar from "./components/Navbar"
 import ImageCard from "./components/ImageCard";
 import UploadModal from "./components/UploadModal";
 import { Grid } from '@mantine/core';
+import { notifications } from '@mantine/notifications';
+
 
 
 import { useState, useEffect } from "react";
@@ -33,9 +35,14 @@ function App() {
 
   const deleteImage = async (imageName: string) => {
     const url = `http://localhost:3000/delete/${imageName}`;
-    const response = await fetch(url, { method: "POST" }).then(() => {
+    await fetch(url, { method: "POST" }).then(() => {
       getImages(inputValue)
     });
+
+    notifications.show({
+      title: 'Deletion successful',
+      message: `${imageName} has been deleted.`,
+    })
   }
 
   //TODO: add debounce
