@@ -11,10 +11,11 @@ const links = [
 
 type NavbarProps = {
     setSearchTerm: (e: React.ChangeEvent<HTMLInputElement>) => void;
-    searchTerm: string
+    searchTerm: string;
+    openModal: any;
 };
 
-export default function Navbar({ setSearchTerm, searchTerm }: NavbarProps) {
+export default function Navbar({ setSearchTerm, searchTerm, openModal }: NavbarProps) {
     const [opened, { toggle, close }] = useDisclosure(false);
 
     return (
@@ -39,7 +40,7 @@ export default function Navbar({ setSearchTerm, searchTerm }: NavbarProps) {
                 </Group>
 
                 <Group>
-                    <Button>Upload</Button>
+                    <Button onClick={openModal}>Upload</Button>
                 </Group>
             </div>
 

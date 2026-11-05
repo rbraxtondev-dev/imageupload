@@ -2,14 +2,19 @@ import "./App.css";
 
 import Navbar from "./components/Navbar"
 import ImageCard from "./components/ImageCard";
+import UploadModal from "./components/UploadModal";
 import { Grid } from '@mantine/core';
 
 
 import { useState, useEffect } from "react";
+import { useDisclosure } from '@mantine/hooks';
+
 
 function App() {
   const [images, setImages] = useState([]);
   const [inputValue, setInputValue] = useState('');
+  const [opened, { open, close }] = useDisclosure(false);
+
 
   const getImages = async (searchParam?: string) => {
     const url = `http://localhost:3000/images${searchParam ? `/${searchParam}` : ""}`;
@@ -45,7 +50,7 @@ function App() {
 
   return (
     <div className="App">
-      <Navbar setSearchTerm={handleInputChange} searchTerm={inputValue} />
+      <Navbar setSearchTerm={handleInputChange} searchTerm={inputValue} openModal={open} />
       <div>{inputValue}</div>
 
       {`${images.length} images`}
@@ -62,7 +67,7 @@ function App() {
       </Grid>
 
 
-
+      <UploadModal opened={opened} open={open} close={close} />
     </div>
   );
 }
