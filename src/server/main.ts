@@ -18,6 +18,24 @@ app.get("/images{/:searchParam}", (req, res) => {
   }
 });
 
+app.post("/delete/:imageName", (req, res) => {
+  const { imageName } = req.params;
+
+
+  fs.unlink(`./uploads/${imageName}`, (err => {
+    if (err) {
+      res.send(err)
+    }
+    else {
+      console.log("\nDeleted file: example_file.txt");
+      res.sendStatus(200);
+
+      // Get the files in current directory
+      // after deletion
+    }
+  }));
+})
+
 ViteExpress.listen(app, 3000, () =>
   console.log("Server is listening on port 3000..."),
 );

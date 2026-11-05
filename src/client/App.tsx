@@ -8,7 +8,7 @@ function App() {
   const [images, setImages] = useState([]);
   const [inputValue, setInputValue] = useState('');
 
-  async function getImages(searchParam?: string) {
+  const getImages = async (searchParam?: string) => {
     const url = `http://localhost:3000/images${searchParam ? `/${searchParam}` : ""}`;
     try {
       const response = await fetch(url);
@@ -24,7 +24,14 @@ function App() {
     }
   }
 
-  //add debounce
+  const deleteImage = async (imageName: string) => {
+    const url = `http://localhost:3000/delete/${imageName}`;
+    const response = await fetch(url, { method: "POST" }).then(() => {
+      getImages(inputValue)
+    });
+  }
+
+  //TODO: add debounce
   const handleInputChange = (event) => {
     setInputValue(event.target.value);
   };
@@ -39,19 +46,11 @@ function App() {
       <input placeholder="search" onChange={handleInputChange}></input>
       <div>{inputValue}</div>
 
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src="/vite.svg" className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://reactjs.org" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-      {images.map(a => (<img src={`/uploads/${a}`} />))}
+
+      {images.map(a => (<div>
+        <img src={`/uploads/${a}`} />
+        <button onClick={() => deleteImage(a)}>Delete</button>
+      </div>))}
     </div>
   );
 }
