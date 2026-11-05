@@ -18,7 +18,6 @@ function App() {
 
       const result = await response.json();
       setImages(result);
-      console.log(result);
     } catch (error) {
       // console.error(error.message);
     }
@@ -43,8 +42,7 @@ function App() {
 
   return (
     <div className="App">
-      <Navbar />
-      <input placeholder="search" onChange={handleInputChange}></input>
+      <Navbar setSearchTerm={handleInputChange} />
       <div>{inputValue}</div>
 
 

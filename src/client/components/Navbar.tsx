@@ -1,4 +1,4 @@
-import { Autocomplete, Burger, Divider, Drawer, Group, ScrollArea, Button } from '@mantine/core';
+import { Input, Burger, Divider, Drawer, Group, ScrollArea, Button } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import classes from './Navbar.module.css';
 
@@ -9,7 +9,7 @@ const links = [
     { link: '/community', label: 'Community' },
 ];
 
-export default function Navbar() {
+export default function Navbar({ setSearchTerm }) {
     const [opened, { toggle, close }] = useDisclosure(false);
 
     const items = links.map((link) => (
@@ -34,11 +34,11 @@ export default function Navbar() {
                         hiddenFrom="sm"
                         aria-label="Toggle navigation"
                     />
-                    <Autocomplete
+                    <Input
                         className={classes.search}
                         placeholder="Search"
+                        onChange={(e) => setSearchTerm(e)}
                         // leftSection={<IconSearch size={16} stroke={1.5} />}
-                        data={['React', 'Angular', 'Vue', 'Next.js', 'Riot.js', 'Svelte', 'Blitz.js']}
                         visibleFrom="xs"
                     />
                 </Group>
@@ -59,7 +59,7 @@ export default function Navbar() {
             >
                 <ScrollArea h="calc(100vh - 80px" mx="-md">
                     <Divider my="sm" />
-                    <Autocomplete
+                    <Input
                         placeholder="Search"
                         // leftSection={<IconSearch size={16} stroke={1.5} />}
                         data={['React', 'Angular', 'Vue', 'Next.js', 'Riot.js', 'Svelte', 'Blitz.js']}
