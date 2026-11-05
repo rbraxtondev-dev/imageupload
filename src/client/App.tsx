@@ -31,7 +31,7 @@ function App() {
   }
 
   //TODO: add debounce
-  const handleInputChange = (event) => {
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(event.target.value);
   };
 
@@ -42,7 +42,7 @@ function App() {
 
   return (
     <div className="App">
-      <Navbar setSearchTerm={handleInputChange} />
+      <Navbar setSearchTerm={handleInputChange} searchTerm={inputValue} />
       <div>{inputValue}</div>
 
 

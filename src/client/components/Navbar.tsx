@@ -9,19 +9,13 @@ const links = [
     { link: '/community', label: 'Community' },
 ];
 
-export default function Navbar({ setSearchTerm }) {
-    const [opened, { toggle, close }] = useDisclosure(false);
+type NavbarProps = {
+    setSearchTerm: (e: React.ChangeEvent<HTMLInputElement>) => void;
+    searchTerm: string
+};
 
-    const items = links.map((link) => (
-        <a
-            key={link.label}
-            href={link.link}
-            className={classes.link}
-            onClick={(event) => event.preventDefault()}
-        >
-            {link.label}
-        </a>
-    ));
+export default function Navbar({ setSearchTerm, searchTerm }: NavbarProps) {
+    const [opened, { toggle, close }] = useDisclosure(false);
 
     return (
         <header className={classes.header}>
@@ -38,6 +32,7 @@ export default function Navbar({ setSearchTerm }) {
                         className={classes.search}
                         placeholder="Search"
                         onChange={(e) => setSearchTerm(e)}
+                        value={searchTerm}
                         // leftSection={<IconSearch size={16} stroke={1.5} />}
                         visibleFrom="xs"
                     />
@@ -60,13 +55,15 @@ export default function Navbar({ setSearchTerm }) {
                 <ScrollArea h="calc(100vh - 80px" mx="-md">
                     <Divider my="sm" />
                     <Input
+                        className={classes.search}
                         placeholder="Search"
-                        // leftSection={<IconSearch size={16} stroke={1.5} />}
-                        data={['React', 'Angular', 'Vue', 'Next.js', 'Riot.js', 'Svelte', 'Blitz.js']}
-                        mx="md"
-                        mb="sm"
+                        onChange={(e) => setSearchTerm(e)}
+                        value={searchTerm}
+                        visibleFrom="xs"
                     />
-                    {items}
+                    <Group>
+                        <Button>Upload</Button>
+                    </Group>
                 </ScrollArea>
             </Drawer>
         </header>
