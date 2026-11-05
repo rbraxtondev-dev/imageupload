@@ -1,11 +1,23 @@
 import { Card, Image, Text, Badge, Button, Group } from '@mantine/core';
-
+import { useState, useEffect } from "react";
 
 type ImageCardProps = {
     image: string
     deleteFn: (imgPath: string) => {}
 };
 export default function ImageCard({ image, deleteFn }: ImageCardProps) {
+    const [sureCheck, setSureCheck] = useState(false);
+
+    useEffect(() => {
+        if (sureCheck) {
+            const timer = setTimeout(() => {
+                setSureCheck(false);
+            }, 1500); // 2.5 seconds delay
+
+            return () => clearTimeout(timer);
+        }
+    }, [sureCheck])
+
     return (
         <Card shadow="sm" padding="lg" withBorder styles={{
             root: {
@@ -24,10 +36,12 @@ export default function ImageCard({ image, deleteFn }: ImageCardProps) {
                 <Text fw={500}>{image}</Text>
             </Group>
 
-            {/* TODO: are you sure? */}
-            <Button color="blue" fullWidth mt="md" onClick={() => { deleteFn(image) }}>
+            {sureCheck ? <Button color="red" fullWidth mt="md" onClick={() => { deleteFn(image) }}>
+                Are you sure?
+            </Button> : <Button color="blue" fullWidth mt="md" onClick={() => { setSureCheck(true); }}>
                 Delete Image
-            </Button>
+            </Button>}
+
         </Card>
     );
 }
