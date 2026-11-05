@@ -1,34 +1,32 @@
-import { Card, Image, Text, Badge, Button, Group } from '@mantine/core';
+import { Card, Image, Text, Button, Group } from '@mantine/core';
 import { useState, useEffect } from "react";
 
 type ImageCardProps = {
     image: string
     deleteFn: (imgPath: string) => {}
 };
+
 export default function ImageCard({ image, deleteFn }: ImageCardProps) {
+    // Var for checking if user is sure before deleting. Will reset to false after 1.5s
     const [sureCheck, setSureCheck] = useState(false);
 
     useEffect(() => {
         if (sureCheck) {
             const timer = setTimeout(() => {
                 setSureCheck(false);
-            }, 1500); // 2.5 seconds delay
+            }, 1500); // 1.5 seconds delay
 
             return () => clearTimeout(timer);
         }
     }, [sureCheck])
 
     return (
-        <Card shadow="sm" padding="lg" withBorder styles={{
-            root: {
-                width: "100%"
-            }
-        }}>
+        <Card shadow="sm" padding="lg" withBorder>
             <Card.Section>
                 <Image
                     src={`/uploads/${image}`}
                     height={250}
-                    alt="Norway"
+                    alt={image}
                 />
             </Card.Section>
 

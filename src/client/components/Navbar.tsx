@@ -1,17 +1,10 @@
 import { Input, Group, Button } from '@mantine/core';
 import classes from './Navbar.module.css';
 
-const links = [
-    { link: '/about', label: 'Features' },
-    { link: '/pricing', label: 'Pricing' },
-    { link: '/learn', label: 'Learn' },
-    { link: '/community', label: 'Community' },
-];
-
 type NavbarProps = {
     setSearchTerm: (e: React.ChangeEvent<HTMLInputElement>) => void;
     searchTerm: string;
-    openModal: any;
+    openModal: () => void;
 };
 
 export default function Navbar({ setSearchTerm, searchTerm, openModal }: NavbarProps) {
@@ -25,8 +18,6 @@ export default function Navbar({ setSearchTerm, searchTerm, openModal }: NavbarP
                         placeholder="Search images"
                         onChange={(e) => setSearchTerm(e)}
                         value={searchTerm}
-                    // leftSection={<IconSearch size={16} stroke={1.5} />}
-
                     />
                 </Group>
 

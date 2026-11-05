@@ -1,25 +1,24 @@
 import "./App.css";
 
+import { useState, useEffect } from "react";
+
+import { Grid, Text } from '@mantine/core';
+import { useDisclosure } from '@mantine/hooks';
+import { notifications } from '@mantine/notifications';
+
 import Navbar from "./components/Navbar"
 import ImageCard from "./components/ImageCard";
 import UploadModal from "./components/UploadModal";
-import { Grid, Text } from '@mantine/core';
-import { notifications } from '@mantine/notifications';
-
-
-
-import { useState, useEffect } from "react";
-import { useDisclosure } from '@mantine/hooks';
-
+import { BASE_URL } from "./constants/constants"
 
 function App() {
   const [images, setImages] = useState([]);
   const [inputValue, setInputValue] = useState('');
-  const [opened, { open, close }] = useDisclosure(false);
+  const [isModalOpen, { open: openModal, close: closeModal }] = useDisclosure(false);
 
 
   const getImages = async (searchParam?: string) => {
-    const url = `http://localhost:3000/images${searchParam ? `/${searchParam}` : ""}`;
+    const url = `${BASE_URL}/images${searchParam ? `/${searchParam}` : ""}`;
 
     try {
       const response = await fetch(url);
@@ -41,8 +40,16 @@ function App() {
     }
   };
 
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setInputValue(event.target.value);
+  };
+
+  const refreshImages = () => {
+    getImages(inputValue);
+  }
+
   const deleteImage = async (imageName: string) => {
-    const url = `http://localhost:3000/delete/${imageName}`;
+    const url = `${BASE_URL}/delete/${imageName}`;
     try {
       const response = await fetch(url, { method: "POST" });
 
@@ -51,26 +58,18 @@ function App() {
       }
 
       getImages(inputValue);
+
       notifications.show({
         title: "Deletion successful",
         message: `${imageName} has been deleted.`,
       });
-
     } catch (error) {
       notifications.show({
         title: "error",
-        message: `${imageName} could not be deleted.`,
+        message: `${imageName} could not be deleted. Error: ${error}`,
       });
     }
   };
-
-  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setInputValue(event.target.value);
-  };
-
-  const refreshImages = () => {
-    getImages(inputValue);
-  }
 
   //useEffect hook to set a timeout for debounce. Every time value changes, previous timeout is cancelled
   useEffect(() => {
@@ -80,7 +79,7 @@ function App() {
 
   return (
     <div className="App">
-      <Navbar setSearchTerm={handleInputChange} searchTerm={inputValue} openModal={open} />
+      <Navbar setSearchTerm={handleInputChange} searchTerm={inputValue} openModal={openModal} />
       <Text size="xl" fw={500} style={{ marginBottom: "24px", textAlign: "left" }}>
         {`${images.length} images`}
       </Text>
@@ -90,14 +89,8 @@ function App() {
             <ImageCard image={imgPath} deleteFn={deleteImage} />
           </Grid.Col>
         ))}
-        {/* <div>
-          <img src={`/uploads/${a}`} />
-          <button onClick={() => deleteImage(a)}>Delete</button>
-        </div> */}
       </Grid>
-
-
-      <UploadModal opened={opened} open={open} close={close} getImages={refreshImages} />
+      <UploadModal opened={isModalOpen} open={openModal} close={closeModal} getImages={refreshImages} />
     </div>
   );
 }
