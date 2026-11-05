@@ -43,9 +43,12 @@ function App() {
     setInputValue(event.target.value);
   };
 
+  const refreshImages = () => {
+    getImages(inputValue);
+  }
 
   useEffect(() => {
-    getImages(inputValue);
+    refreshImages();
   }, [inputValue])
 
   return (
@@ -67,7 +70,7 @@ function App() {
       </Grid>
 
 
-      <UploadModal opened={opened} open={open} close={close} />
+      <UploadModal opened={opened} open={open} close={close} getImages={refreshImages} />
     </div>
   );
 }

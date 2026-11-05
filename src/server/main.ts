@@ -34,9 +34,11 @@ app.post("/upload", (req, res) => {
       // 2. Write the file specifying the 'base64' encoding
       fs.writeFile(`./uploads/${images[i].name}`, base64Data, { encoding: "base64" }, (err) => {
         if (err) throw err;
+        res.sendStatus(200);
         console.log('The file has been saved!');
       });
     } catch (error) {
+      res.sendStatus(500);
       console.error('Failed to save file:', error);
     }
   }

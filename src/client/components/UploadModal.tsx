@@ -10,9 +10,10 @@ type UploadModalProps = {
     opened: boolean,
     open: any,
     close: any
+    getImages: any
 };
 
-export default function UploadModal({ opened, open, close }: UploadModalProps) {
+export default function UploadModal({ opened, open, close, getImages }: UploadModalProps) {
     const [value, setValue] = useState<File[]>([]);
 
     const fileToBase64 = (file: File): Promise<string> => {
@@ -42,9 +43,9 @@ export default function UploadModal({ opened, open, close }: UploadModalProps) {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ images: base64Images })
-        }).then(() => {
-            // getImages(inputValue)
         });
+
+        getImages();
     };
 
 
