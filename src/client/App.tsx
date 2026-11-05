@@ -20,33 +20,49 @@ function App() {
 
   const getImages = async (searchParam?: string) => {
     const url = `http://localhost:3000/images${searchParam ? `/${searchParam}` : ""}`;
+
     try {
       const response = await fetch(url);
+
       if (!response.ok) {
         throw new Error(`Response status: ${response.status}`);
       }
 
       const result = await response.json();
       setImages(result);
+
     } catch (error) {
+      const message = error instanceof Error ? error.message : "Unknown error";
+
       notifications.show({
-        title: 'Error fetching images',
-        message: `Error: ${error.message}`,
-      })
+        title: "Error fetching images",
+        message: `Error: ${message}`,
+      });
     }
-  }
+  };
 
   const deleteImage = async (imageName: string) => {
     const url = `http://localhost:3000/delete/${imageName}`;
-    await fetch(url, { method: "POST" }).then(() => {
-      getImages(inputValue)
-    });
+    try {
+      const response = await fetch(url, { method: "POST" });
 
-    notifications.show({
-      title: 'Deletion successful',
-      message: `${imageName} has been deleted.`,
-    })
-  }
+      if (!response.ok) {
+        throw new Error(`Response status: ${response.status}`);
+      }
+
+      getImages(inputValue);
+      notifications.show({
+        title: "Deletion successful",
+        message: `${imageName} has been deleted.`,
+      });
+
+    } catch (error) {
+      notifications.show({
+        title: "error",
+        message: `${imageName} could not be deleted.`,
+      });
+    }
+  };
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(event.target.value);
@@ -58,7 +74,7 @@ function App() {
 
   //useEffect hook to set a timeout for debounce. Every time value changes, previous timeout is cancelled
   useEffect(() => {
-    const timeoutId = setTimeout(() => refreshImages(), 150);
+    const timeoutId = setTimeout(() => refreshImages(), 100);
     return () => clearTimeout(timeoutId);
   }, [inputValue]);
 

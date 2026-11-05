@@ -46,9 +46,12 @@ export default function UploadModal({ opened, open, close, getImages }: UploadMo
             body: JSON.stringify({ images: base64Images })
         });
 
+        const multiple = files.length > 1;
         notifications.show({
             title: 'Upload successful',
-            message: `${files.length} images have been uploaded!`
+            message: multiple
+                ? `${files.length} images have been uploaded!`
+                : `${files.length} image has been uploaded!`
         })
 
         getImages();
@@ -74,7 +77,8 @@ export default function UploadModal({ opened, open, close, getImages }: UploadMo
                 <Dropzone
                     onDrop={(files) => setValue(files)}
                     onReject={(files) => onReject(files)}
-                    maxSize={10 * 1024 ** 2}
+                    maxSize={3 * 1024 ** 2} //3MB
+                    maxFiles={5}
                     accept={IMAGE_MIME_TYPE}
                     style={{ marginBottom: 20 }}
                 >
@@ -83,7 +87,7 @@ export default function UploadModal({ opened, open, close, getImages }: UploadMo
                             Accept
                         </Dropzone.Accept>
                         <Dropzone.Reject>
-                            File type not accepted
+                            Please check file type and number of files being uploaded.
                         </Dropzone.Reject>
                         <Dropzone.Idle>
                             {value.length} files ready for upload
@@ -94,7 +98,7 @@ export default function UploadModal({ opened, open, close, getImages }: UploadMo
                                 Drag images here or click to select files
                             </Text>
                             <Text size="sm" c="dimmed" inline mt={7}>
-                                Attach as many files as you like, each file should not exceed 10mb
+                                Attach up to five files, each file should not exceed 3mb
                             </Text>
                         </div>
                     </Group>

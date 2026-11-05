@@ -5,7 +5,7 @@ import fs from "fs";
 const app = express();
 
 // 1. Middleware to parse JSON payloads
-app.use(express.json({ limit: "10mb" }));
+app.use(express.json({ limit: "15mb" }));
 
 
 app.get("/hello", (_, res) => {
@@ -26,7 +26,6 @@ app.get("/images{/:searchParam}", (req, res) => {
 app.post("/upload", (req, res) => {
   const images = req.body.images;
 
-  console.log(images.length)
   for (let i = 0; i < images.length; i++) {
     const imageString = images[i].base64;
     const base64Data = imageString.replace(/^data:[^;]+;base64,/, '');
@@ -49,19 +48,18 @@ app.post("/upload", (req, res) => {
 app.post("/delete/:imageName", (req, res) => {
   const { imageName } = req.params;
 
-
-  fs.unlink(`./uploads/${imageName}`, (err => {
-    if (err) {
-      res.send(err)
-    }
-    else {
-      console.log("\nDeleted file: example_file.txt");
-      res.sendStatus(200);
-
-      // Get the files in current directory
-      // after deletion
-    }
-  }));
+  try {
+    fs.unlink(`./uploads/${imageName}`, (err => {
+      if (err) throw err;
+      else {
+        console.log(`Deleted file: ${imageName}`);
+        res.sendStatus(200);
+      }
+    }));
+  } catch (error) {
+    res.sendStatus(500);
+    console.error('Failed to delete file:', error);
+  }
 })
 
 ViteExpress.listen(app, 3000, () =>
