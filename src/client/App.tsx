@@ -3,7 +3,7 @@ import "./App.css";
 import Navbar from "./components/Navbar"
 import ImageCard from "./components/ImageCard";
 import UploadModal from "./components/UploadModal";
-import { Grid } from '@mantine/core';
+import { Grid, Text } from '@mantine/core';
 import { notifications } from '@mantine/notifications';
 
 
@@ -61,12 +61,12 @@ function App() {
   return (
     <div className="App">
       <Navbar setSearchTerm={handleInputChange} searchTerm={inputValue} openModal={open} />
-      <div>{inputValue}</div>
-
-      {`${images.length} images`}
+      <Text size="xl" fw={500} style={{ marginBottom: "24px" }}>
+        {`${images.length} images`}
+      </Text>
       <Grid>
         {images.map(imgPath => (
-          <Grid.Col span={4}>
+          <Grid.Col key={imgPath} span={6}>
             <ImageCard image={imgPath} deleteFn={deleteImage} />
           </Grid.Col>
         ))}

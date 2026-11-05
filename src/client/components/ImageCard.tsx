@@ -15,7 +15,7 @@ export default function ImageCard({ image, deleteFn }: ImageCardProps) {
             <Card.Section>
                 <Image
                     src={`/uploads/${image}`}
-                    height={160}
+                    height={250}
                     alt="Norway"
                 />
             </Card.Section>
@@ -24,7 +24,7 @@ export default function ImageCard({ image, deleteFn }: ImageCardProps) {
                 <Text fw={500}>{image}</Text>
             </Group>
 
-//TODO: are you sure?
+            {/* TODO: are you sure? */}
             <Button color="blue" fullWidth mt="md" onClick={() => { deleteFn(image) }}>
                 Delete Image
             </Button>
