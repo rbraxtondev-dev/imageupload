@@ -81,7 +81,8 @@ function App() {
     <div className="App">
       <Navbar setSearchTerm={handleInputChange} searchTerm={inputValue} openModal={openModal} />
       <Text size="xl" fw={500} style={{ marginBottom: "24px", textAlign: "left" }}>
-        {`${images.length} images`}
+        {images.length > 0 && `${images.length} images`}
+        {images.length === 0 && "No images have been uploaded. Please use the Upload button in the top nav to add them!"}
       </Text>
       <Grid>
         {images.map(imgPath => (
