@@ -15,6 +15,27 @@ type UploadModalProps = {
 export default function UploadModal({ opened, open, close }: UploadModalProps) {
     const [value, setValue] = useState<File[]>([]);
 
+    const fileToBase64 = (file: File): Promise<string> => {
+        return new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onload = () => resolve(reader.result as string);
+            reader.onerror = (error) => reject(error);
+        });
+    };
+
+    const uploadFiles = async (files: File[]) => {
+        for (let i = 0; i < files.length; i++) {
+            const file = files[i];
+            let base64Images = []
+            if (file) {
+                const base64String = await fileToBase64(file);
+                base64Images.push(base64String);
+                console.log(base64String);
+            }
+        }
+    };
+
     return (
         <>
             <Modal opened={opened} onClose={close} title="Upload Image">
@@ -46,7 +67,7 @@ export default function UploadModal({ opened, open, close }: UploadModalProps) {
                         </div>
                     </Group>
                 </Dropzone>
-                <Button>Hi</Button>
+                <Button onClick={() => uploadFiles(value)}>Hi</Button>
             </Modal>
         </>
     );
