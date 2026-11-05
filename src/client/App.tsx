@@ -45,7 +45,6 @@ function App() {
     })
   }
 
-  //TODO: add debounce
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(event.target.value);
   };
@@ -54,9 +53,11 @@ function App() {
     getImages(inputValue);
   }
 
+  //useEffect hook to set a timeout for debounce. Every time value changes, previous timeout is cancelled
   useEffect(() => {
-    refreshImages();
-  }, [inputValue])
+    const timeoutId = setTimeout(() => getImages(inputValue), 150);
+    return () => clearTimeout(timeoutId);
+  }, [inputValue]);
 
   return (
     <div className="App">
