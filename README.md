@@ -1,10 +1,12 @@
 Hello!
 
+As requested, this can be run with `npm i` and `npm start`.
+
 This assessment took approximately an afternoon to complete, although the work was split between a night and a day.
 
 I opted to build a simple backend with Node and Express to make the application a bit more persistent. There are definitely some optimizations that could be made there, but it is all functional and returns errors when necessary.
 
-For the frontend, I imported the Mantine component library for styling and cherrypicked their template for the navbar from their documentation. Mantine is something I've used in previous roles, and I find it has just enough simplicity to not overcomplicate things or turn the tsx files into a jumbled mess.
+For the frontend, I imported the Mantine component library for styling and cherrypicked their template for the navbar from their documentation. Mantine is something I've used in previous roles, and I find it has just enough simplicity to not overcomplicate things or turn the tsx files into a jumbled mess. In a production application I would wrap all the components so it was easier to propogate any future changes in the FE.
 
 All successful and failed interactions in the application have notifications associated with them. In a production environment, I would place the text for these notifications in a separate constants file and import the strings. This is easier for engineers when context switching or working on bugs, and also makes internationalization significantly easier if implemented down the line.
 
