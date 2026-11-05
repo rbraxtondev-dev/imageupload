@@ -25,16 +25,28 @@ export default function UploadModal({ opened, open, close }: UploadModalProps) {
     };
 
     const uploadFiles = async (files: File[]) => {
+        let base64Images = []
+
         for (let i = 0; i < files.length; i++) {
             const file = files[i];
-            let base64Images = []
             if (file) {
                 const base64String = await fileToBase64(file);
-                base64Images.push(base64String);
-                console.log(base64String);
+                base64Images.push({ name: file.name, base64: base64String });
             }
         }
+
+        const url = `http://localhost:3000/upload`;
+        console.log(base64Images);
+
+        await fetch(url, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ images: base64Images })
+        }).then(() => {
+            // getImages(inputValue)
+        });
     };
+
 
     return (
         <>
